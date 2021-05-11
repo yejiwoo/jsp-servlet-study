@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CallServletByJavaScript</title>
+</head>
+<body>
+
+   <h2>자바스크립트를 통한 서블릿 호출</h2>
+
+	<p>자바스크립트 함수 코드의 주석을 잘 읽어보시고 학습하시기 바랍니다,<p>
+   
+<!--<form name="frmLogin" method="post" action="login5060303">-->
+   <form name="frmLogin">
+      아이디  :<input type="text" name="userId" required /><br>
+      <!-- 비밀번호:<input type="password" name="userPw"><br> -->
+      비밀번호:<input type="password" name="userPw" onClick="idInputValidate()"><br>
+   <!-- <input type="submit" value="로그인"> -->
+       <input type="button" onClick="submitValidate()" value="로그인">
+       <input type="reset" value="다시입력">
+       <input type="hidden" name="user_address" value="서울시 성북구" />
+   </form>
+
+
+
+<script type="text/javascript" >
+
+   //<form>태그의 name 속성으로 <form> 객체를 변수에 저장
+   var frmLogin=document.frmLogin;
+   var inputId=frmLogin.userId;
+   var inputPw=frmLogin.userPw;
+   //alert(frmLogin);
+   //alert(inputId);
+   //alert(inputId);
+   
+
+   //id 입력여부 검증
+   function idInputValidate(){
+      
+      var userId=inputId.value;
+      
+      alert(userId+"===="+ typeof userId);
+      
+      
+      
+      if(userId==""||userId.length==0) {
+      //if(userId==null) {    //자바스크립트에서 input 에 값이 없을 때를 검증하는 조건절을
+                     //userId==null 작성하면 원하는 동작이 수행되지 않습니다.
+         alert("아이디를 먼저 입력하세요.");
+         inputId.focus();
+      } 
+   }
+
+//[참고] input 요소의 type이 number 이더라도
+//      실제 입력된 값은 string으로 처리 됩니다. 
+
+//자바스크립트를 이용하여 input 태그로 입력된 값의 유무를 검증 시 알고 있어야 할 점
+//input 요소는 아무 값을 입력하지 않아도, null 상태가 아닙니다.
+//따라서 값의 유무를 검사하는 자바스크립트에서 조건절을 작성 시에
+//변수 == null 형태의 조건절을 사용하지 마시기 바랍니다.
+
+   function submitValidate(){
+      //<form>의 <input> 태그에 입력한 
+      //사용자가 입력한 아이디와 암호를 변수에 저장
+      var userId = inputId.value;
+      var userPw = inputPw.value;
+
+      
+      //input에 아무값도 입력하지 않은 상태에서 로그인 버튼을 클릭하여 이 함수 호출될 경우
+      //아래 if문 처리 결과는 "xxxx가 null아님"이 표시됩니다.
+      if (userId == null){
+         alert("userId가  null");   
+      } else {
+         alert("userId가  null아님");
+      }
+      
+      if (userPw == null){
+         alert("userPw가  null");   
+      } else {
+         alert("userPw가  null아님");
+      }
+      
+      alert(userId+"=="+ typeof userId+"=="+ userPw+"=="+ typeof userPw);
+      alert(userId.length+"=="+ userPw.length);
+   
+      //따라서 input 요소의 입력값을 저장하는 변수에 대하여 값의 유무를 검사하는 조건절은
+      //다음처럼 작성하세요
+      //변수들에 저장된 값이 없으면
+      //if((userId.length==0 ||userId=="") || 
+      //   (userPw.length==0 ||userPw=="")) {
+      
+      //if(!userId || !userPw){  //1. 변수에 0이 저장되지 않는 경우라면,
+      if((userId.length==0 ||userId=="") ||   //2. 일반적인 경우.
+         (userPw.length==0 ||userPw=="")){   
+            
+         alert("아이디와 비밀번호는 필수입니다.");
+         
+      } else {
+         //변수들에 저장된 값이 존재하면, 
+         //폼의 다음 속성에 값을 설정
+         frmLogin.method="post";  //데이터 전송방식을 post 로 지정
+         frmLogin.action="login5060303"; //전송할 서블릿을 설정 
+         
+         //폼 객체의 submit() 메서드를 호출하여 서블릿에게 전송 
+         frmLogin.submit();
+      }
+   }
+
+/*
+   //교재 원본 코드입니다.
+ 
+   function submitValidate(){
+      //<form>태그의 name 속성으로 <form> 객체를 변수에 저장
+      var frmLogin=document.frmLogin;
+      
+      //<form>의 <input> 태그의 name 속성으로
+      //사용자가 입력한 아이디와 암호를 각각 변수에 저장
+      var userId=frmLogin.userId.value;
+      var userPw=frmLogin.userPw.value;
+   
+      //변수들에 저장된 값이 없으면
+      if((userId.length==0 ||userId=="") || 
+         (userPw.length==0 ||userPw=="")) {
+         
+         alert("아이디와 비밀번호는 필수입니다.");
+         
+      } else {
+         //변수들에 저장된 값이 존재하면, 
+         //폼의 다음 속성에 값을 설정
+         frmLogin.method="post";  //데이터 전송방식을 post 로 지정
+         frmLogin.action="login5060303"; //전송할 서블릿을 설정 
+         
+         //폼 객체의 submit() 메서드를 호출하여 서블릿에게 전송 
+         frmLogin.submit();
+      }
+   }
+*/
+</script>
+</body>
+</html>
