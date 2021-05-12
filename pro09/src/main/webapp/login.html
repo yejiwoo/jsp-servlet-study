@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>hidden태그이용 로그인 창</title>
+</head>
+<body>
+	<form name="frmLogin" method="get" action="login090102" encType="utf-8">
+		아이디: <input type="text" name="user_id" placeholder="아이디를 입력하세요"><br>	 <!-- text박스에 입력된 값을 user_id로 전송 -->
+		비밀번호: <input type="password" name="user_pw" placeholder="비밀번호를 입력하세요"><br>
+		<input type="submit" value="로그인"> <input type="reset" value="다시입력">
+		<input type="hidden" name="user_address" value="서울시 성북구"/>
+		<input type="hidden" name="user_email" value="test@gmail.com" />
+		<input type="hidden" name="user_hp" value="010-1111-2222" />
+	</form>
+	
+</body>
+</html>

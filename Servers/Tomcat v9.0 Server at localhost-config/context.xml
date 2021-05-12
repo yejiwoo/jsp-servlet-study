@@ -26,4 +26,8 @@
     <!--
     <Manager pathname="" />
     -->
+    
+    <!-- 실습을 위해 주석 해제 -->
+    <Manager pathname="" />
+    
 </Context>

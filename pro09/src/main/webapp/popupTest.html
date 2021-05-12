@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 쿠키삭제 -->
+	<form>
+		<input type=button value="쿠키삭제" onClick="deleteCookie()">
+	</form>
+	
+	<script type="text/javascript">
+	
+		window.onload=pageLoad; //브라우저에 웹 페이지가 로드될 때 pageLoad()함수 호출해서 실행
+		
+		function pageLoad(){
+			var notShowPop=getCookieValue();
+			if(notShowPop=="false"){
+				window.open("popUp.html","pop","width=400, height=500, history=no,resizeable=no, status=no, scrollbars=yes, menubar=no");
+			}
+		}
+		
+		function getCookieValue(){
+			var result="false"; // false일때 팝업창 뜬다.
+			if(document.cookie!=""){
+				//내가 선언한 변수 myCookie (앞에 var선언 안 하면 전역변수가 된다??)
+				//;로 분리된 쿠키배열을 얻는다.
+				var myCookie = document.cookie.split(";");  //쿠키이름=값;쿠키이름2=값2;...
+				
+				for(var i=0; i<myCookie.length; i++){
+					var element=myCookie[i].split("="); //쿠키이름=값
+					value=element[0];
+					
+					//정규식을 이용해 쿠키이름 문자열의 공백(\s) 제거
+					var value=value.replace(/^\s*/,'');
+					
+					//쿠키이름이 notShowPop인 쿠키가 있으면 result에 그 쿠키의 값 저장
+					if(value=="notShowPop") 
+						result=element[1];
+				}
+			}
+			return result;
+		}
+		
+		function deleteCookie(){
+			document.cookie="notShowPop="+"false"+"; path=/; expires=-1";
+		}
+	</script>
+</body>
+</html>
