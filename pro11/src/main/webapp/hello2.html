@@ -1,0 +1,34 @@
+<%@ page language="JAVA" 
+       contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"
+        session="true"
+        buffer="8kb"
+        autoFlush="true"
+        isThreadSafe="true"
+        info="(페이지 설명입니다.)"
+        isErrorPage="false"
+        errorPage=""
+        import="java.sql.Date"
+        import="java.sql.Timestamp"
+        import="java.util.List"
+        import="java.util.ArrayList" %>
+
+<!-- response.setContentType()는 
+     page 디렉티브의  contentType 속성으로 지정됩니다.-->
+<%-- <% response.setContentType("text/html; charset=UTF-8"); %> --%>
+
+<!-- 요청에 대한 인코딩은 설정할 수 있는 속성이 없으므로 아래처럼 코드로 명시해야 합니다. -->
+<% request.setCharacterEncoding("utf-8"); %>
+        
+<!-- JSP 디렉티브 테그 내에서는 주석처리를 사용할 수 없습니다. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>page 디렉티브 연습</title>
+</head>
+<body>
+   <h2>page 디렉티브 속성 설정 </h2>
+
+</body>
+</html>
