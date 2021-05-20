@@ -25,9 +25,31 @@
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
     <!--
     <Manager pathname="" />
+    
     -->
     
-    <!-- 실습을 위해 주석 해제 -->
     <Manager pathname="" />
+    
+   
+    <Resource
+        name="jdbc/hr"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="oracle.jdbc.OracleDriver"
+        url="jdbc:oracle:thin:@localhost:1521:xe"
+        username="hr"
+        password="oracle4U"
+        maxTotal="50"
+        maxWaitMillis="-1"/> 
+    <Resource
+        name="jdbc/myuser01"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="oracle.jdbc.OracleDriver"
+        url="jdbc:oracle:thin:@localhost:1521:xe"
+        username="myuser01"
+        password="oracle4U"
+        maxTotal="50"
+        maxWaitMillis="-1"/>
     
 </Context>
