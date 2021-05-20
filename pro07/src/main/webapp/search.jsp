@@ -9,7 +9,7 @@
 <body>
  <form name="frmSearchName">
  	이름:<input type="text" name="name"><br>
- 	<input type="button" value="조회하기" onCLick="changeToUpperCase()">
+ 	<!-- <input type="button" value="조회하기" onCLick="changeToUpperCase()"> --> <!-- 이렇게 쓰지말고 아래처럼 쓰라는데 왜였는지가 기억 안 남 -->
  	<button type="button" onCLick="changeToUpperCase()">조회하기</button>
  </form>
  
