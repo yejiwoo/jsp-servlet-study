@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<title>단수 입력창</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<script type="text/javascript">
+		function isNumber(num) {
+		//value += '';
+		num = String(num);
+		num = num.replace(/^\s*|\s*$/g, "");//모든 공백 제거
+		if(num.length == 0 || num == Null){
+			return false;			
+		} else if (isNaN(Number(num))) {
+			return false;
+		} else 
+			return true;
+		}
+
+	function valueCheck(){
+			var frmGugu=document.frmGugu;
+			var dan=frmGugu.dan.value;
+			
+			if(!isNumber(dan)){
+				alert("숫자로 된 단수를 하나만 입력하세요");
+	   		}else{ 	 
+	   			dan = String(dan);
+	   			dan = dan.replace(/^\s*|\s*$/g, "");//모든 공백 제거
+	   			dan = Number(dan)
+	   			frmGugu.dan.value = dan ;
+	   			frmGugu.method="post";
+	   			frmGugu.action="gugu2.jsp";
+	   			frmGugu.submit();
+	   		} 
+		}
+	</script>
+   <h1> 구구단의 단수를 입력하세요.</h1>
+   <!-- <form name=frmMem method=get action="gugu.jsp">  -->
+	<form name="frmGugu">
+      	출력할 구구단  :<input type=text  name="dan" /><br>
+      			  <input type ="button" value="출력하기" onclick="valueCheck()">	 			 
+	</form>
+</body>
+</html>
