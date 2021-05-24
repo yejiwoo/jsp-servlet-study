@@ -16,6 +16,11 @@
 <body>
 
 <%
+
+/**
+*** request객체를 다른 jsp로 포워딩
+**/
+
 // 아래 3개 다 가능 ("test01/request2.jsp"는 안 됨)
 // RequestDispatcher dispatch=request.getRequestDispatcher("./request2.jsp");
 // RequestDispatcher dispatch=request.getRequestDispatcher("request2.jsp");

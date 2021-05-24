@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
     
 <%
-String name=(String)request.getAttribute("name"); //요청된 이름의 Value를 Object타입으로 반환
-String address=(String)request.getAttribute("address");
+	// 첫번쨰 jsp 페이지에서 포워딩 된 request 객체에서 정보를 가져온다.
+	String name=(String)request.getAttribute("name"); 
+	String address=(String)request.getAttribute("address");
 %>
 <!DOCTYPE html>
 <html>
