@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- myBatis SQL-매퍼파일임을 선언 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- "확장자를 제외한 파일이름"으로 MemberMapper.xml의 네임스페이스를 지정합니다. -->
+<mapper namespace="MemberMapper">
+
+    <!-- SQL문을 실행한 후 반환되는 레코드 각각의 형식을 설정합니다.-->
+    <!-- type에 직접 클래스를 기술할 때는 패키지명.클래스명 형태로 기술해야 하며 -->
+
+	<!-- 레코드의 컬럼 이름에 대해  memberVO의 동일 속성에 값을 설정합니다. -->
+    <!-- 테이블의 컬럼이름과 memberVO의 속성명이 동일하게 정의하는 것이 권장이며 -->
+    <!-- 아래의 property에는 memberVO 속성명을 column에는 테이블의 컬럼이름 명시 -->
+	<resultMap id="memResult" type="com.mybatis.ex01.MemberVO">
+		<result property="id" column="id" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <result property="joinDate" column="joinDate" />
+	</resultMap> 
+
+    <!-- 아래에 설정된 SELECT문을 DAO에서 호출할 id를 설정하고 --> 
+    <!-- SQL문을 호출하여 실행된 후 -->
+    <!-- 반환되는 레코드가 저장될 결과맵의 이름을 memResult으로 설정합니다. -->
+	<select id="selectAllMembersList" resultMap="memResult">
+<!-- 	<select id="selectAllMembersList" resultType="com.mybatis.ex01.MemberVO"> 이렇게 쓸 수도 있다. vo의 필드명과 db의 컬럼명 같아야 사용 가능 -->
+	<!-- XML엔티티["(&quot;), '(&apos;), <(&lt;), >(&gt;), &(&amp;)] -->
+<!-- 	<![CDATA[ SELECT * FROM hr.t_members ORDER BY joinDate DESC ]]> -->
+       SELECT * FROM hr.t_members ORDER BY joinDate DESC
+       <!-- SELECT * FROM hr.t_member -->
+	</select>
+		
+	<select id="selectMemberName" resultType="String">
+    <!-- SELECT name FROM hr.t_member WHERE id = &apos;hong&apos; -->
+    SELECT name FROM hr.t_members WHERE id = 'hong'
+	</select>
+	
+	<select id="selectMemberPassword" resultType="String" >
+	  <![CDATA[ SELECT password FROM hr.t_members WHERE id ='hong' ]]>
+	 </select>
+	
+	
+	
+	<!-- ex03용 SQL문 -->	 
+<!-- parameterType에는 MemberDAO에서 SQL문 호출 시 -->
+<!-- 전달받는 매개변수의 데이터유형을 지정합니다. -->
+<!-- 즉,  #{id}에 전달되는 매개변수의 타입을 지정합니다.  -->
+
+	<select id="selectMemberById" resultType="com.mybatis.ex01.MemberVO"  
+			parameterType="String" >
+
+    <!-- MemberDAO에서 이 SQL문을 호출 시 parameterType 으로-->
+    <!-- 전달된 매개변수 이름을 WHERE 절의 조건 값으로 사용합니다. -->
+	<!-- <![CDATA[ SELECT * FROM hr.t_member WHERE id=#{id} ]]> -->
+		SELECT * FROM hr.t_members WHERE id=#{id}
+<!-- # :PreparedStatement  ==> ? (바인딩기능), $: Statement   ==> 실제값으로 변경(바인딩기능x)--> 
+	<!-- SELECT * FROM hr.t_member WHERE id='${id}' -->
+	</select>
+	 	
+<!-- ex03용 SQL문 -->	 
+	<select id="selectMembersByPassword" resultMap="memResult"  parameterType="String" >
+	<!-- <![CDATA[ SELECT * FROM hr.t_member WHERE password = #{password} ]]> -->
+		SELECT * FROM hr.t_members WHERE password = #{password}
+	</select>	  
+	
+	
+	
+	<!-- ex04용 SQL문 -->    
+    <!-- parameterType에 빈의 id 를 지정 -->
+    <insert id="insertNewMember"  parameterType="com.mybatis.ex01.MemberVO">
+		<!-- memberVO의 속성 이름에 저장된 값을 values 절에서 값으로 설정합니다. -->
+ 
+<!-- 	<![CDATA[
+			INSERT INTO hr.t_member 
+			VALUES(#{id}, #{pwd}, #{name}, #{email}, default) 
+		]]> -->
+		INSERT INTO hr.t_members
+		VALUES(#{id}, #{password}, #{name}, #{email}, default)    
+	</insert>
+
+<!-- 회원가입 시 ID 중복  확인 SELECT -->	
+	<select id="selectDuplicateIdCheck" resultType="String" parameterType="String">
+		SELECT (CASE WHEN COUNT(*) = 1 THEN 'true'
+					 ELSE 'false' END) AS RESULT 
+		FROM hr.t_members 
+		WHERE id=#{id}
+	</select>
+	
+<!-- 23.4.6 회원 정보 수정 -->
+    <!-- UPDATE 문에 사용될 데이터를 memberVO 빈에 설정해 전달합니다. -->
+    <update id="updateMemberById"  parameterType="com.mybatis.ex01.MemberVO">
+<!-- <![CDATA[
+	      UPDATE hr.t_member
+	      SET pwd=#{pwd}, name=#{name}, email=#{email}
+	      WHERE id=#{id}
+     ]]>  -->     
+      
+          <!-- memberVO 빈의 속성값을 각 컬럼의 수정값으로 설정합니다. -->
+      	  UPDATE hr.t_members
+	      SET pwd=#{pwd}, name=#{name}, email=#{email}
+	      WHERE id=#{id}    <!-- memberVO 빈의 mid 속성값을 조건 값으로 사용합니다. -->
+   </update> 
+
+
+<!-- 23.4.7 회원 정보 삭제  -->     
+   <delete id="deleteMemberById"  parameterType="String">
+	<!-- <![CDATA[ DELETE FROM hr.t_member WHERE id=#{id} ]]> -->
+	DELETE FROM hr.t_members WHERE id=#{id}
+   </delete>
+   
+   
+   <!-- 동적 SQL문 -->
+<!-- WHERE 절의 조건식을 변경하기 위하여 사용하는 기법 -->
+<!-- if, choose, trim, foreach 를 사용하여 조건식을 바꿔줄 수 있습니다. -->
+
+<!-- 23.5.1 <if> 태그로 동적 SQL문 만들기 -->
+	<select id="searchMember" parameterType="com.mybatis.ex01.MemberVO" resultMap="memResult">
+	<!--  <![CDATA[SELECT * FROM hr.t_member]]> -->
+		SELECT * FROM hr.t_member
+		<where><!-- where 요소를 이용해 WHERE 절을 구성 -->
+			<if test="name != '' and name != null"> <!-- name이 널이 아니면 명시된 조건절이 사용 -->
+				name=#{name} 
+			</if>
+			<if test="email != '' and email != null "><!-- email이 널이 아니면 명시된 조건절이 사용 -->
+				and email = '${email}'
+			      </if>
+	   </where>
+	   ORDER BY joinDate DESC
+	</select>
+<!-- 23.5.2 <choose><when>태그로 동적 SQL문 만들기 -->    
+	<select id="searchMember2" parameterType="com.mybatis.ex01.MemberVO" resultMap="memResult">
+	<!-- <![CDATA[ SELECT * FROM hr.t_member ]]> -->
+		SELECT * FROM hr.t_member
+	<!-- 위의 if 태그를 아래처럼 choose(when 이나 otherwise)을 이용하여 작성할 수도 있습니다. -->
+		<where>
+			<choose>
+				<when test="name != '' and name != null and email != '' and email != null">
+					name=#{name} and email=#{email}
+				</when>
+				<when test="name != '' and name != null">
+					name = #{name}
+				</when>
+				<when test="email !='' and email != null">
+					email = #{email}
+				</when>
+			</choose>
+		</where>
+	ORDER BY joinDate DESC
+	</select>  
+  
+<!-- 23.5.3 <forEach> 태그로 회원 정보 조회하기 --> 
+
+<!-- 다음은 foreach 태그를 이용하여 collection에 대해 반복처리를 하는 예입니다. -->
+<!-- SQL 문의 WHERE 절에 IN (값1, 값2,..)연산자가 사용될 경우 자주 사용됨.  -->
+<!-- Map을 사용하면, SQL문에 List 인스턴스나 배열을 전달하면, 자동으로 -->
+<!-- Map에 전달되어 이름을 키로 사용합니다. List 인스턴스는 List를 키로 사용하고 -->
+<!-- 배열은 array 를 키로 사용합니다. -->
+	<select id="forEachSelect" resultMap="memResult" parameterType="java.util.Map">
+		<!-- <![CDATA[ SELECT * FROM hr.t_member ]]> -->
+		SELECT * FROM hr.t_member    <!-- <include refid="a" /> -->
+		WHERE name IN 
+		<!-- collection 속성에는 list 또는 array 형태만 가능 -->
+		<!-- open은 구문 시작시 삽입할 문자(열), close는 구문 종료시 삽입할 문자(열) -->
+		<!-- separator는 반복 사이에 삽입할 문자(열) -->
+			<foreach item="item" collection="list" open="(" separator="," close=")" >
+				#{item}
+			</foreach>
+		ORDER BY joinDate DESC
+	</select>
+
+	<select id="selectLike" resultMap="memResult"  parameterType="String" >
+	<!-- <![CDATA[
+			SELECT * FROM hr.t_member
+			WHERE name LIKE '%' || #{name} || '%'		
+		]]> -->
+		SELECT * FROM hr.t_member
+		WHERE UPPER(email) LIKE '%' || #{email} || '%'
+	</select>
+	
+<!-- 위의 내용을 email과 name 각각의 값의 일부만 입력하더라도 결과가 표시되도록 -->
+<!-- email과 name 값이 없으면, 전체목록, 값이 명시된 조건절이 처리되도록 -->
+<!-- 조건절이 email에 대한 것/name에 대한 것/email과 name에 대한것/없는 것으로 -->
+<!-- 처리될 수 있도록 변경하세요 -->
+
+	<select id="selectLike2" resultMap="memResult" parameterType="com.mybatis.ex01.MemberVO" >
+		SELECT * FROM hr.t_member
+		<where>
+			<choose>
+				<when test="name != '' and name != null and email != '' and email != null">
+					UPPER(name) LIKE '%' || #{name} || '%' 
+					AND UPPER(email) LIKE '%' || #{email} || '%'
+				</when>
+				<when test="name != '' and name != null">
+					UPPER(name) LIKE '%' || #{name} || '%'
+				</when>
+				<when test="email !='' and email != null">
+					UPPER(email) LIKE '%' || #{email} || '%'
+				</when>
+			</choose>
+		</where>
+	ORDER BY joinDate DESC
+	</select>
+	
+	
+	
+	<!-- SELECT문의 실행결과로부터 컬럼이름이 키로 가져온 값들이 값으로 HashMap에 저장됩니다.  -->
+	
+	<resultMap id="hiredCountResult" type="java.util.HashMap">
+		<result property="hiredInterval" column="hiredInterval" />
+        <result property="persons" column="persons" />
+	</resultMap> 
+
+	<select id="hiredCountEmployees" resultMap="hiredCountResult" >
+		SELECT TO_CHAR(hire_date,'YYYY') AS hiredInterval, count(*) AS persons
+		FROM hr.employees 
+		GROUP BY TO_CHAR(hire_date,'YYYY') 
+	</select>
+   
+   
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
