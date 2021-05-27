@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- <form name="frmLogin" method="post" action="login070501"> -->
+	<form name="frmLogin">
+		아이디: <input type="text" name="user_id"><br>
+		비밀번호: <input type="text" name="user_pw"><br>
+		<hr width="40%">
+		<input type="button" value="&nbsp;로그인&nbsp" onclick="loginValueCheck()">
+		<input type="reset" value="초기화">
+	</form> 
+	
+<script type="text/javascript">
+	function loginValueCheck(){
+		var frmlogin=document.frmLogin;
+		var userId=frmlogin.user_id.value;
+		var userPw=frmlogin.user_pw.value;
+		
+		if(userId.length==0||userId==""){
+			alert("아이디는 필수입니다");
+		}else if(userPw.length==0||userPw==""){
+			alert("비번은 필수입니다.");
+		}else{
+			frmlogin.method="post";
+			frmlogin.action="login070501";
+			frmlogin.submit();
+		}
+	}
+
+</script>
+</body>
+</html>

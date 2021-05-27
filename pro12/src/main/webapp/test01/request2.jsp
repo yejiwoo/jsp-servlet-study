@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+   
 <%
 	// 첫번쨰 jsp 페이지에서 포워딩 된 request 객체에서 정보를 가져온다.
 	String name=(String)request.getAttribute("name"); 
