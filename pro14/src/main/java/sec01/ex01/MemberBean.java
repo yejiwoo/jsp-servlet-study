@@ -8,7 +8,6 @@ public class MemberBean {
 	private String password;
 	private String name;
 	private String email;
-	private int score=10; // getter 클래스가 없으면 jsp가 표현언어로 값을 못 읽어 온다..
 	private Date joinDate;
 	
 	public MemberBean() {
